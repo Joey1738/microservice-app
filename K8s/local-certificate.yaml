@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-microservice-tls
+  namespace: default
+spec:
+  secretName: local-microservice-tls
+  commonName: local.microservice
+  dnsNames:
+  - local.microservice
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+  - digital signature
+  - key encipherment
