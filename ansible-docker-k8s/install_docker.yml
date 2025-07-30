@@ -1,0 +1,49 @@
+---
+- name: Install Docker and create containers on Ubuntu 23.04 (Noble)
+  hosts: localhost
+  become: true
+
+  vars:
+    docker_venv_path: /opt/docker-venv
+
+  tasks:
+    - name: Install prerequisite packages
+      apt:
+        name:
+          - curl
+          - python3-pip
+          - python3-venv
+        state: present
+        update_cache: yes
+
+    - name: Install Docker using official script
+      shell: curl -fsSL https://get.docker.com | sh
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create virtual environment for Python Docker SDK
+      command: python3 -m venv {{ docker_venv_path }}
+      args:
+        creates: "{{ docker_venv_path }}"
+
+    - name: Install Docker SDK for Python in venv
+      pip:
+        virtualenv: "{{ docker_venv_path }}"
+        name: docker
+
+    - name: Pull ubuntu image
+      community.docker.docker_image:
+        name: ubuntu
+        source: pull
+
+    - name: Create 4 ubuntu containers running sleep
+      community.docker.docker_container:
+        name: "docker{{ item }}"
+        image: ubuntu
+        command: sleep 1d
+        state: started
+      loop: "{{ range(1,5) | list }}"

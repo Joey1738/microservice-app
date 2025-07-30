@@ -1,0 +1,35 @@
+---
+- name: Install and Setup Jenkins on Ubuntu
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install Java (Jenkins prerequisite)
+      apt:
+        name: openjdk-11-jdk
+        state: present
+        update_cache: yes
+
+    - name: Add Jenkins repository key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins APT repository
+      apt_repository:
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+        state: present
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins package
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start and enable Jenkins service
+      systemd:
+        name: jenkins
+        state: started
+        enabled: yes

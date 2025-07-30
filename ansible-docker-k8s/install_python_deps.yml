@@ -1,0 +1,33 @@
+---
+- name: Install Python and app dependencies on Ubuntu
+  hosts: localhost
+  become: yes
+
+  vars:
+    venv_path: /opt/myappenv
+    pip_packages:
+      - flask
+      - requests
+      - numpy
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Python3, venv, and pip
+      apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+        state: present
+
+    - name: Create virtual environment
+      command: python3 -m venv {{ venv_path }}
+      args:
+        creates: "{{ venv_path }}/bin/activate"
+
+    - name: Install Python packages in venv
+      command: "{{ venv_path }}/bin/pip install {{ item }}"
+      loop: "{{ pip_packages }}"

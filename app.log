@@ -1,0 +1,5 @@
+2025-07-30 16:35:18,461 - INFO - Requested URL: https://jsonplaceholder.typicode.com/posts/1 | Status: 200
+2025-07-30 16:35:37,166 - ERROR - Request to https://invalid.url.abc failed: HTTPSConnectionPool(host='invalid.url.abc', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002C1A35EFE00>: Failed to resolve 'invalid.url.abc' ([Errno 11001] getaddrinfo failed)"))
+2025-07-30 16:35:38,720 - INFO - Requested URL: https://jsonplaceholder.typicode.com/posts/1 | Status: 200
+2025-07-30 16:40:01,651 - ERROR - Request to https://invalid.url.abc failed: HTTPSConnectionPool(host='invalid.url.abc', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002712018FA10>: Failed to resolve 'invalid.url.abc' ([Errno 11001] getaddrinfo failed)"))
+2025-07-30 16:41:06,741 - INFO - Requested URL: https://jsonplaceholder.typicode.com/posts/1 | Status: 200
